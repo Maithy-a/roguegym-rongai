@@ -5,7 +5,8 @@ export type Member = {
     email: string;
     phoneNumber: string;
     totalAmount: number;
-    status: "Active" | "Inactive";
+    status: "active" | "inactive";
+    plan: string
     createdAt?: Date;
     dueDate?: Date;
     paymentId?: any;

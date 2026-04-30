@@ -14,13 +14,12 @@ export async function GET() {
 
         return NextResponse.json(
             results.map((plan) => ({
-                planId: plan._id.toString(),
+                id: plan._id.toString(),
                 planKey: plan.planKey,
                 planTitle: plan.title,
                 price: plan.price,
                 duration: plan.durationMonths,
-
-                isActive: plan.isActive,
+                status: plan.isActive ? "active" : "inactive",
                 createdAt: plan.createdAt.toISOString(),
                 updatedAt: plan.updatedAt.toISOString()
             }))

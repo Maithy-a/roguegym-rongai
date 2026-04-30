@@ -14,7 +14,7 @@ export default function DashboardLayout({ children, }: { children: React.ReactNo
                 <AppSidebar />
                 <SidebarInset>
                     <SiteHeader />
-                    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 bg-accent">
+                    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 bg-gray-50">
                         {children}
                     </div>
                 </SidebarInset>
