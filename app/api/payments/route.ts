@@ -1,6 +1,5 @@
 import clientPromise from "@/lib/mongodb";
 import { getPagination } from "@/lib/pagination";
-import { Payment } from "@/types";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {

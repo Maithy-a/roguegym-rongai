@@ -1,19 +1,13 @@
-
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Building2 } from "lucide-react"
 import { BillingDataTable } from "./data-table"
-import { columns, BillingPlan } from "./columns"
+import { columns } from "./columns"
 import { CreatePlanDialog } from "@/components/CreatePlanDialog"
 
 export default async function BillingPlansPage() {
 
   const res = await fetch(`${process.env.NEXT_BASE_URL}/api/plans`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
     cache: "no-store",
   })
 
@@ -28,41 +22,42 @@ export default async function BillingPlansPage() {
           Create and manage subscription plans for your customers.
         </p>
       </div>
-      
+
       <Separator className="mb-2" />
 
-      <div className="mb-6 rounded-3xl border p-6 bg-linear-to-tr to-[#222223] from-[#47484a] text-white">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center justify-center gap-3">
-            <Button variant="ghost" size="icon" className="rounded-lg bg-red-50 text-red-600">
+      <div className="mb-6 rounded-3xl border p-6 bg-linear-to-tr to-[#201d1d] from-[#47484a] text-white py-4 space-y-6">
+        <div className="flex justify-between pb-6">
+          <div className="flex items-center gap-2">
+            <Button
+              size="icon-lg"
+              className="rounded-full"
+            >
               <Building2 />
             </Button>
+
             <div>
               <h2 className="text-lg font-semibold text-gray-100">
-                Create your own plans
+                Create Billing Plans
               </h2>
-              <p className="text-sm text-gray-200">
+              <p className="text-xs text-gray-200">
                 Set up pricing plans and start onboarding users.
               </p>
             </div>
           </div>
 
-          <Badge
-            variant="outline"
-            className="bg-white text-gray-800"
-          >
-            {totalPlans} {totalPlans === 1 ? "Plan" : "Plans"} Created
-          </Badge>
+          <CreatePlanDialog />
         </div>
 
-        <div className="my-4 h-px w-full bg-gray-600" />
+        <div className="my-4 h-px w-full bg-muted/50" />
 
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-200">
+          <p className="text-sm text-muted">
             Plans help you organize subscriptions and billing.
           </p>
 
-          <CreatePlanDialog />
+          <span className="bg-yellow-500 text-sm px-2.5 rounded-full" >
+            {totalPlans} {totalPlans === 1 ? "Plan" : "Plans"} created
+          </span>
         </div>
       </div>
 
@@ -70,7 +65,7 @@ export default async function BillingPlansPage() {
         columns={columns}
         data={data}
       />
-
+      
     </section>
   )
 }

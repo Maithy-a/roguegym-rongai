@@ -28,7 +28,7 @@ export type Plan = {
     planKey: string;
     planTitle: string;
     price: number;
-    duration: number; // in months
+    duration: number;
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date | null;
@@ -36,14 +36,11 @@ export type Plan = {
 
 export type employees = {
     employeeId: string;
-    firstName: string;
-    lastName: string;
+    fullName: string;
     email: string;
-    description: string;
+    description?: string;
     phoneNumber: string;
-    position: string;
-    specalities?: string[];
-    assignedMembers?: string[]; // Array of member IDs
+    role: string;
     createdAt: Date;
     updatedAt: Date | null;
 }

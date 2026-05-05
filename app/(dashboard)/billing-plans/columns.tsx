@@ -42,7 +42,7 @@ export const columns: ColumnDef<BillingPlan>[] = [
         cell: ({ row }) => {
             const duration = row.getValue("duration") as number
             return (
-                <span className="text-gray-700">
+                <span className="text-gray-700 font-medium capitalize">
                     {duration} {duration === 1 ? "month" : "months"}
                 </span>
             )
@@ -70,14 +70,11 @@ export const columns: ColumnDef<BillingPlan>[] = [
             const status = row.getValue("status") as string
 
             return (
-                <Badge
-                    className={cn(
-                        "capitalize",
-                        status === "active"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-gray-100 text-gray-800"
-                    )}
-                >
+                <Badge className={cn("capitalize",
+                    status === "active"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-rose-100 text-rose-600"
+                )}>
                     {status}
                 </Badge>
             )

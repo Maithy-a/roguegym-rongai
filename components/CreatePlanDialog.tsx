@@ -77,10 +77,7 @@ export function CreatePlanDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button
-                    size="sm"
-                    className="flex items-center gap-2 rounded-full bg-red-600 px-4 text-white hover:bg-red-700"
-                >
+                <Button className="flex items-center gap-2 rounded-full bg-red-600 px-4 text-white hover:bg-red-700">
                     <PlusIcon className="h-4 w-4" />
                     Add Billing Plan
                 </Button>

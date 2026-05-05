@@ -19,7 +19,7 @@ export async function createPlan(input: CreatePlan) {
     const client = await clientPromise;
     const db = client.db("rogue-gym-rongai")
 
-    const existingPlan = await db.collection("plans").findOne({
+    const existingPlan = await db.collection("billing-plans").findOne({
         planKey: planKey,
     })
 
@@ -32,7 +32,7 @@ export async function createPlan(input: CreatePlan) {
 
     const now = new Date()
 
-    const result = await db.collection("plans").insertOne({
+    const result = await db.collection("billing-plans").insertOne({
         title: name.trim(),
         planKey: planKey,
         description: description?.trim() ?? "",

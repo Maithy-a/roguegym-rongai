@@ -6,7 +6,7 @@ export function getPagination(request: Request) {
 
     // Defaults
     if (!page || page < 1) page = 1;
-    if (!limit || limit < 1) limit = 10;
+    if (!limit || limit < 1) limit = 6;
 
     // prevent abuse
     if (limit > 100) limit = 100;

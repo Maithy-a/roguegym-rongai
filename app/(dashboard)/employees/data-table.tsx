@@ -7,14 +7,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table"
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
@@ -37,7 +30,7 @@ import {
 
 import { Search } from "lucide-react"
 
-interface DataTableProps<TData> {
+interface DataTableProps<TData extends { employeeId: string }> {
     columns: ColumnDef<TData, any>[]
     data: TData[]
     page: number
@@ -46,7 +39,7 @@ interface DataTableProps<TData> {
     onRowClick?: (row: TData) => void
 }
 
-export function DataTable<TData>({
+export function DataTable<TData extends { employeeId: string }>({
     columns,
     data,
     page,
@@ -93,7 +86,6 @@ export function DataTable<TData>({
         setSearchValue(searchParams.get("search") ?? "")
     }, [searchParams])
 
-
     useEffect(() => {
         const timeout = setTimeout(() => {
             updateQuery("search", searchValue)
@@ -104,10 +96,11 @@ export function DataTable<TData>({
 
     return (
         <div className="space-y-4">
+
             <div className="flex gap-3 items-center px-2">
                 <InputGroup className="w-65 bg-white">
                     <InputGroupInput
-                        placeholder={"Search..."}
+                        placeholder="Search employees..."
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                     />
@@ -116,33 +109,30 @@ export function DataTable<TData>({
                     </InputGroupAddon>
                 </InputGroup>
 
-                <div className="flex gap-2">
-                    <Select
-                        value={searchParams.get("status") ?? "all"}
-                        onValueChange={(value) => updateQuery("status", value)}
-                    >
-                        <SelectTrigger className="w-45 bg-white">
-                            <SelectValue placeholder="Filter by status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Status</SelectItem>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="inactive">Inactive</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+                <Select
+                    value={searchParams.get("role") ?? "all"}
+                    onValueChange={(value) => updateQuery("role", value)}
+                >
+                    <SelectTrigger className="w-45 bg-white">
+                        <SelectValue placeholder="Filter by role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">All Role</SelectItem>
+                        <SelectItem value="trainer">Trainer</SelectItem>
+                        <SelectItem value="receptionist">Receptionist</SelectItem>
+                        <SelectItem value="manager">Manager</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
 
             <div className="p-1.5 bg-accent rounded-3xl shadow-sm border">
-                <div className="rounded-2xl p-3 mt-4 overflow-hidden bg-white">
-                    <Table className="overflow-hidden">
+                <div className="rounded-2xl p-3 mt-4 overflow-hidden bg-white border">
+                    <Table>
                         <TableHeader>
                             {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id} className="py-3">
+                                <TableRow key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => (
-                                        <TableHead
-                                            key={header.id}
-                                            className="font-medium" >
+                                        <TableHead key={header.id}>
                                             {flexRender(
                                                 header.column.columnDef.header,
                                                 header.getContext()
@@ -158,11 +148,11 @@ export function DataTable<TData>({
                                 table.getRowModel().rows.map((row) => (
                                     <TableRow
                                         key={row.id}
-                                        className="cursor-pointer hover:bg-muted/50 transition-colors duration-200"
-                                        onClick={() => onRowClick?.(row.original)}
+                                        className="cursor-pointer hover:bg-muted/50 transition duration-150"
+                                          onClick={() => onRowClick?.(row.original)}
                                     >
                                         {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id} className="py-3">
+                                            <TableCell key={cell.id}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
@@ -182,7 +172,7 @@ export function DataTable<TData>({
                                                 height={150}
                                                 className="mx-auto mb-4 border rounded-full"
                                             />
-                                            No data to show
+                                            No employees found
                                         </div>
                                     </TableCell>
                                 </TableRow>

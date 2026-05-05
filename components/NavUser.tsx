@@ -1,5 +1,3 @@
-"use client";
-
 import {
     Avatar,
     AvatarFallback,
@@ -14,12 +12,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IconUser, IconSettings, IconCreditCard, IconChevronLeft } from "@tabler/icons-react";
+import { IconUser, IconSettings, IconChevronLeft } from "@tabler/icons-react";
 
 const user = {
     name: "Shaban Haider",
     email: "shaban@efferd.com",
-    avatar: "https://github.com/shabanhr.png",
+    avatar: "/images/avatar.png",
 };
 
 export function NavUser() {

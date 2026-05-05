@@ -1,4 +1,5 @@
 import clientPromise from "@/lib/mongodb"
+import { getPagination } from "@/lib/pagination"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
@@ -7,9 +8,7 @@ export async function GET(request: NextRequest) {
         const db = client.db("rogue-gym-rongai")
 
         const { searchParams } = new URL(request.url)
-
-        const page = Number(searchParams.get("page") || 1)
-        const limit = Number(searchParams.get("limit") || 10)
+        const { page, limit } = getPagination(request)
 
         const search = searchParams.get("search") || ""
         const status = searchParams.get("status") || "all"

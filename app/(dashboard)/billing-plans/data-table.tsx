@@ -39,6 +39,7 @@ import { CreatePlanDialog } from "@/components/CreatePlanDialog"
 import Image from "next/image"
 
 import { useRouter } from "next/navigation"
+import { BillingPlan } from "./columns"
 
 interface BillingDataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -70,9 +71,9 @@ export function BillingDataTable<TData, TValue>({
     const filteredRowCount = table.getFilteredRowModel().rows.length
 
     return (
-        <>
-            <div className="flex items-center gap-2 ">
-                <InputGroup className="max-w-xs">
+        <div className="space-y-4">
+            <div className="flex items-center gap-2 py-2">
+                <InputGroup className="max-w-xs bg-white">
                     <InputGroupInput placeholder="Search plans..."
                         value={(table.getColumn("planTitle")?.getFilterValue() as string) ?? ""}
                         onChange={(event) =>
@@ -117,71 +118,76 @@ export function BillingDataTable<TData, TValue>({
                 </DropdownMenu>
             </div>
 
-            <div className="rounded-2xl border p-3 mt-4 overflow-hidden">
-                <Table className="overflow-hidden">
-                    <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id} className="bg-muted">
-                                {headerGroup.headers.map((header) => (
-                                    <TableHead
-                                        key={header.id}
-                                        className="text-xs uppercase font-bold cursor-pointer"
-                                    >
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
-                                    </TableHead>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableHeader>
-
-                    <TableBody>
-                        {table.getRowModel().rows.length ? (
-                            table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    className="cursor-pointer hover:bg-muted transition"
-                                    onClick={() => router.push(`/membership-plans/${(row.original as any).id}`)}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="py-3">
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </TableCell>
+            <div className="p-1.5 bg-accent rounded-3xl shadow-sm border">
+                <div className="rounded-2xl p-3 mt-4 overflow-hidden bg-white">
+                    <Table className="overflow-hidden">
+                        <TableHeader>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <TableRow key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => (
+                                        <TableHead
+                                            key={header.id}
+                                            className="font-medium"
+                                        >
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                        </TableHead>
                                     ))}
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={columns.length}
-                                >
-                                    <div className="flex flex-col items-center justify-center gap-2 py-10">
-                                        <Image
-                                            src='/images/empty-table.svg'
-                                            width='150'
-                                            height='150'
-                                            alt=""
-                                            className="border rounded-full"
-                                        />
-                                        <p className="text-sm text-gray-500">
-                                            No plans Available at the moment.
-                                        </p>
-                                        <CreatePlanDialog />
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
+                            ))}
+                        </TableHeader>
+
+                        <TableBody>
+                            {table.getRowModel().rows.length ? (
+                                table.getRowModel().rows.map((row) => (
+                                    <TableRow
+                                        key={row.id}
+                                        className="cursor-pointer hover:bg-muted transition-colors duration-200"
+                                        onClick={() => {
+                                            const plan = row.original as BillingPlan
+                                            router.push(`/billing-plans/${plan.id}`)
+                                        }}
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell key={cell.id} className="py-3">
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={columns.length}
+                                    >
+                                        <div className="flex flex-col items-center justify-center gap-2 py-10">
+                                            <Image
+                                                src='/images/empty-table.svg'
+                                                width='150'
+                                                height='150'
+                                                alt=""
+                                                className="border rounded-full"
+                                            />
+                                            <p className="text-sm text-gray-500">
+                                                No plans Available at the moment.
+                                            </p>
+                                            <CreatePlanDialog />
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
             </div>
-        </>
+        </div>
 
     )
 }

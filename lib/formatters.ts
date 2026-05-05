@@ -1,5 +1,5 @@
 export const formatCurrency = (amount: number): string => {
-    return new Intl.NumberFormat('en-KE', {
+    return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'KES',
         minimumFractionDigits: 2,
@@ -8,17 +8,19 @@ export const formatCurrency = (amount: number): string => {
 }
 
 export const formatToLongDate = (date: Date): string => {
-    return new Intl.DateTimeFormat('en-KE', {
+    if (!date) return "-";
+    return new Date(date).toLocaleDateString("en-US", {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-    }).format(date);
+    });
 }
 
 export const formatToShortDate = (date: Date): string => {
-    return new Intl.DateTimeFormat('en-KE', {
-        year: '2-digit',
-        month: 'short',
-        day: 'numeric',
-    }).format(date);
+    if (!date) return "-";
+    return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
 }

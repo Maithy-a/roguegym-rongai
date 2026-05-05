@@ -20,8 +20,6 @@ export async function GET() {
                 price: plan.price,
                 duration: plan.durationMonths,
                 status: plan.isActive ? "active" : "inactive",
-                createdAt: plan.createdAt.toISOString(),
-                updatedAt: plan.updatedAt.toISOString()
             }))
         );
 
@@ -33,4 +31,4 @@ export async function GET() {
             { status: 500 }
         );
     }
-}
+}2
