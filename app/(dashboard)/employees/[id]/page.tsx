@@ -3,16 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { formatToShortDate } from "@/lib/formatters";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-    IconPlus,
-    IconCloudUpload,
-    IconUserEdit
-} from "@tabler/icons-react";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger
-} from "@/components/ui/tooltip";
+import { IconPlus, IconCloudUpload, IconUserEdit } from "@tabler/icons-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Image from "next/image";
 
 interface EmployeeDetailsPageProps {
@@ -25,6 +17,7 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
     const res = await fetch(`${process.env.NEXT_BASE_URL}/api/employees/${id}`, {
         cache: "no-store",
     });
+
     if (!res.ok) return notFound();
 
     const {
@@ -36,7 +29,8 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
         branch,
         assignedMembers,
         specialities,
-        createdAt, updatedAt
+        createdAt,
+        updatedAt
     } = await res.json();
 
     return (
@@ -46,9 +40,9 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                     <div className="h-full w-full relative">
                         <Image
                             src="/images/arm-illustration.png"
-                            alt="arm illustration"
+                            alt="Arm illustration"
                             fill={true}
-                            className="object-contain object-right opacity-40"
+                            className="object-contain object-right opacity-60"
                         />
                     </div>
                 </div>
@@ -57,7 +51,7 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3 flex-wrap">
-                                <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 tracking-tight">
+                                <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 tracking-tight capitalize">
                                     {fullName}
                                 </h1>
 
@@ -69,18 +63,21 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                             <div className="flex gap-3">
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button
-                                            className="text-xs px-3 py-1.5 h-8"
-                                            disabled={role !== "trainer"}
-                                        >
-                                            <IconPlus size={14} />
-                                            Assign Member
-                                        </Button>
+                                        <span>
+                                            <Button
+                                                className="text-xs px-3 py-1.5 h-8"
+                                                disabled={role !== "trainer"}
+                                            >
+                                                <IconPlus size={14} />
+                                                Assign Member
+                                            </Button>
+                                        </span>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         {role !== "trainer"
                                             ? "Only trainers can assign members"
-                                            : "Assign member"}
+                                            : "Assign member"
+                                        }
                                     </TooltipContent>
                                 </Tooltip>
 
@@ -114,7 +111,10 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                                     <p className="text-gray-500">Assigned to</p>
                                     <p className="font-semibold text-gray-900 ">
                                         {assignedMembers?.length ?? 0}{" "}
-                                        {assignedMembers?.length === 1 ? "Member" : "Members"}
+                                        {assignedMembers?.length === 1
+                                            ? "Member"
+                                            : "Members"
+                                        }
                                     </p>
                                 </div>
                             )}
@@ -144,7 +144,6 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                 <div className="col-span-3 space-y-6">
                     <div className="rounded-2xl bg-muted p-1.5">
                         <div className="flex justify-between font-semibold text-gray-700 my-2 px-2">
-
                             <div className="flex items-center gap-2">
                                 <h2 className="text-lg">
                                     Assigned Members
@@ -174,14 +173,16 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
 
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button
-                                            size="icon"
-                                            variant="outline"
-                                            className="h-8 w-8 rounded-full"
-                                            disabled={role !== "trainer"}
-                                        >
-                                            <IconCloudUpload stroke={2} />
-                                        </Button>
+                                        <span>
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                className="h-8 w-8 rounded-full"
+                                                disabled={role !== "trainer"}
+                                            >
+                                                <IconCloudUpload stroke={2} />
+                                            </Button>
+                                        </span>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         Export Records

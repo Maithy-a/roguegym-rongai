@@ -1,9 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { IconCloudUp, IconPlus } from "@tabler/icons-react"
 import Link from "next/link"
+import { IconCloudUp, IconPlus } from "@tabler/icons-react"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 import { useRouter } from "next/navigation"
@@ -24,7 +23,7 @@ export default function MembersClient({ data }: any) {
 
                 <div className="flex items-center gap-2">
                     <Button asChild variant="default">
-                        <Link href="/members/new" className="flex items-center">
+                        <Link href="/members/create-member" className="flex items-center">
                             <IconPlus size={18} />
                             Add New
                         </Link>
@@ -38,8 +37,6 @@ export default function MembersClient({ data }: any) {
                     </Button>
                 </div>
             </div>
-
-            <Separator className="mb-6" />
 
             <DataTable
                 columns={columns}

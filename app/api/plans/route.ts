@@ -19,6 +19,7 @@ export async function GET() {
                 planTitle: plan.title,
                 price: plan.price,
                 duration: plan.durationMonths,
+                description: plan.description,
                 status: plan.isActive ? "active" : "inactive",
             }))
         );
@@ -31,4 +32,4 @@ export async function GET() {
             { status: 500 }
         );
     }
-}2
+} 2

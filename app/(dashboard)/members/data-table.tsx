@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/select"
 
 import { Search } from "lucide-react"
+import { MemberStatus } from "@/types/member"
 
 interface DataTableProps<TData> {
     columns: ColumnDef<TData, any>[]
@@ -45,6 +46,18 @@ interface DataTableProps<TData> {
     total: number
     onRowClick?: (row: TData) => void
 }
+interface Plan {
+    id: string
+    planKey: string
+    planTitle: string
+    status: string
+}
+
+const memberStatuses: MemberStatus[] = [
+    "pending",
+    "active",
+    "expired",
+]
 
 export function DataTable<TData>({
     columns,
@@ -85,14 +98,28 @@ export function DataTable<TData>({
         router.push(`?${params.toString()}`)
     }
 
-    const [searchValue, setSearchValue] = useState(
-        searchParams.get("search") ?? ""
-    )
+    const [searchValue, setSearchValue] = useState(searchParams.get("search") ?? "")
+    const [plans, setPlans] = useState<Plan[]>([])
+
+    async function getPlans() {
+        try {
+            const response = await fetch("/api/plans",
+                { cache: "no-store" }
+            )
+            if (!response.ok) throw new Error("Failed to fetch plans")
+
+            const data = await response.json()
+            setPlans(data)
+        } catch (error) {
+            console.error("Error fetching plans:", error)
+        }
+    }
+
+    useEffect(() => { getPlans() }, [])
 
     useEffect(() => {
         setSearchValue(searchParams.get("search") ?? "")
     }, [searchParams])
-
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -116,7 +143,7 @@ export function DataTable<TData>({
                     </InputGroupAddon>
                 </InputGroup>
 
-                <div className="flex gap-2">
+                <div className="flex gap-3" >
                     <Select
                         value={searchParams.get("status") ?? "all"}
                         onValueChange={(value) => updateQuery("status", value)}
@@ -126,8 +153,29 @@ export function DataTable<TData>({
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">All Status</SelectItem>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="inactive">Inactive</SelectItem>
+                            {memberStatuses.map((status) => (
+                                <SelectItem key={status} value={status}>
+                                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    <Select
+                        value={searchParams.get("plan") ?? "all"}
+                        onValueChange={(value) => updateQuery("plan", value)}
+                    >
+                        <SelectTrigger className="w-45 bg-white">
+                            <SelectValue placeholder="Filter by plan" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            <SelectItem value="all">All Plans</SelectItem>
+                            {plans.map((plan) => (
+                                <SelectItem key={plan.planKey} value={plan.planKey} >
+                                    {plan.planTitle}
+                                </SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                 </div>
@@ -217,6 +265,6 @@ export function DataTable<TData>({
                     </Button>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

@@ -6,7 +6,6 @@ export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
-
     const { id } = await params;
 
     if (!ObjectId.isValid(id)) {
@@ -20,89 +19,94 @@ export async function GET(
         const client = await clientPromise;
         const db = client.db("rogue-gym-rongai");
 
-        const result = await db.collection("members")
-            .aggregate([
-                {
-                    $match: { _id: new ObjectId(id) }
+        const member = await db.collection("members").aggregate([
+            {
+                $match: {
+                    _id: new ObjectId(id),
                 },
-                {
-                    $lookup: {
-                        from: "billing-plans",
-                        localField: "planId",
-                        foreignField: "_id",
-                        as: "plan"
-                    }
+            },
+
+            {
+                $lookup: {
+                    from: "payments",
+                    localField: "_id",
+                    foreignField: "memberId",
+                    as: "transactions",
                 },
-                {
-                    $unwind: {
-                        path: "$plan",
-                        preserveNullAndEmptyArrays: true
-                    }
-                },
-                {
-                    $project: {
-                        memberId: { $toString: "$_id" },
-                        firstName: 1,
-                        lastName: 1,
-                        email: 1,
-                        phoneNumber: 1,
-                        status: 1,
-                        totalAmount: 1,
+            },
 
-                        createdAt: {
-                            $cond: {
-                                if: "$createdAt",
-                                then: { $toString: "$createdAt" },
-                                else: null
-                            }
-                        },
+            {
+                $project: {
+                    _id: 0,
 
-                        dueDate: {
-                            $cond: {
-                                if: "$dueDate",
-                                then: { $toString: "$dueDate" },
-                                else: null
-                            }
-                        },
+                    memberId: {
+                        $toString: "$_id",
+                    },
 
-                        recentPaymentId: {
-                            $cond: {
-                                if: "$paymentId",
-                                then: { $toString: "$paymentId" },
-                                else: null
-                            }
-                        },
+                    firstName: 1,
+                    lastName: 1,
+                    email: 1,
+                    phoneNumber: 1,
+                    gender: 1,
+                    goal: 1,
+                    medicalNotes: 1,
+                    dob: 1,
 
-                        plan: {
-                            $cond: {
-                                if: "$plan",
-                                then: {
-                                    planId: { $toString: "$plan._id" },
-                                    planKey: "$plan.planKey",
-                                    planTitle: "$plan.title",
-                                    price: "$plan.price",
-                                    duration: "$plan.durationMonths",
-                                    description: "$plan.description"
+                    currentPlan: {
+                        planKey: "$plan.planKey",
+                        planTitle: "$plan.title",
+                        price: "$plan.price",
+                        duration: "$plan.durationMonths",
+                        status: "$memberStatus",
+                        paymentStatus: "$paymentStatus",
+                        startDate: "$membershipStartDate",
+                        membershipExpiry: "$membershipEndDate",
+                    },
+
+                    transactions: {
+                        $map: {
+                            input: "$transactions",
+                            as: "transaction",
+                            in: {
+                                transactionId: {
+                                    $toString: "$$transaction._id",
                                 },
-                                else: null
-                            }
-                        }
-                    }
-                }
-            ])
-            .toArray();
 
-        if (!result.length) {
+                                reference: "$$transaction.reference",
+                                paymentChannel: "$$transaction.paymentChannel",
+                                status: "$$transaction.status",
+                                amount: "$$transaction.amount",
+                                gatewayResponse: "$$transaction.gatewayResponse",
+                                paidAt: "$$transaction.paidAt",
+                                createdAt: "$$transaction.createdAt",
+                                expiryDate: "$membershipEndDate",
+
+                                plan: {
+                                    planKey: "$$transaction.plan.planKey",
+                                    planTitle: "$$transaction.plan.title",
+                                    price: "$$transaction.plan.price",
+                                    durationMonths: "$$transaction.plan.durationMonths",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        ]).toArray();
+
+        if (!member.length) {
             return NextResponse.json(
                 { error: "Member not found" },
                 { status: 404 }
             );
         }
 
-        return NextResponse.json(result[0]);
+        return NextResponse.json(member[0], {
+            status: 200,
+        });
 
     } catch (error) {
-        console.error("GET member error:", error);
+        console.error("Error fetching member details:", error);
 
         return NextResponse.json(
             { error: "Failed to fetch member" },

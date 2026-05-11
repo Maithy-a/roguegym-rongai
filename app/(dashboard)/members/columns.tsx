@@ -5,19 +5,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { formatCurrency, formatToLongDate } from "@/lib/formatters"
 import { cn } from "@/lib/utils"
+import { MembersResponse } from "@/types/member"
+import { avatarStyles, badgeStyles } from "@/constants"
 
-export type Member = {
-    memberId: string
-    fullName: string
-    email: string
-    phoneNumber: string
-    totalAmount: number
-    status: "active" | "inactive"
-    plan: string
-    createdAt: string
-}
-
-export const columns: ColumnDef<Member>[] = [
+export const columns: ColumnDef<MembersResponse>[] = [
     {
         accessorKey: "fullName",
         header: "Member",
@@ -36,14 +27,7 @@ export const columns: ColumnDef<Member>[] = [
             return (
                 <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                        <AvatarFallback
-                            className={cn(
-                                status === "active"
-                                    ? "bg-green-100 text-green-800"
-                                    : "bg-gray-100 text-gray-800"
-
-                            )}
-                        >
+                        <AvatarFallback className={cn(avatarStyles[status])} >
                             {initials || "N/A"}
                         </AvatarFallback>
                     </Avatar>
@@ -70,11 +54,11 @@ export const columns: ColumnDef<Member>[] = [
     },
 
     {
-        accessorKey: "totalAmount",
-        header: "Amount",
+        accessorKey: "amountPaid",
+        header: "Amount paid",
         cell: ({ row }) => (
             <span className="font-medium">
-                {formatCurrency(row.original.totalAmount)}
+                {formatCurrency(row.original.amountPaid)}
             </span>
         )
     },
@@ -85,11 +69,7 @@ export const columns: ColumnDef<Member>[] = [
         cell: ({ row }) => {
             const status = row.original.status
             return (
-                <Badge className={cn("capitalize",
-                    status === "active"
-                        ? "bg-green-100 text-green-600"
-                        : "bg-rose-100 text-rose-600"
-                )}>
+                <Badge className={cn("capitalize", badgeStyles[status])}>
                     {status}
                 </Badge>
             )
@@ -99,11 +79,9 @@ export const columns: ColumnDef<Member>[] = [
         accessorKey: "createdAt",
         header: "Member Since",
         cell: ({ row }) => {
-            const date = new Date(row.original.createdAt)
-
             return (
                 <span className="text-sm">
-                    {formatToLongDate(date)}
+                    {formatToLongDate(row.original.createdAt)}
                 </span>
             )
         }

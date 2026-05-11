@@ -7,7 +7,7 @@ export const formatCurrency = (amount: number): string => {
     }).format(amount);
 }
 
-export const formatToLongDate = (date: Date): string => {
+export const formatToLongDate = (date: string): string => {
     if (!date) return "-";
     return new Date(date).toLocaleDateString("en-US", {
         year: 'numeric',
@@ -16,7 +16,7 @@ export const formatToLongDate = (date: Date): string => {
     });
 }
 
-export const formatToShortDate = (date: Date): string => {
+export const formatToShortDate = (date: string): string => {
     if (!date) return "-";
     return new Date(date).toLocaleDateString("en-US", {
         year: "numeric",

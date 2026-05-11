@@ -1,12 +1,10 @@
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { Building2 } from "lucide-react"
 import { BillingDataTable } from "./data-table"
 import { columns } from "./columns"
 import { CreatePlanDialog } from "@/components/CreatePlanDialog"
+import { Badge } from "@/components/ui/badge"
 
 export default async function BillingPlansPage() {
-
   const res = await fetch(`${process.env.NEXT_BASE_URL}/api/plans`, {
     cache: "no-store",
   })
@@ -15,57 +13,58 @@ export default async function BillingPlansPage() {
   const totalPlans = data.length
 
   return (
-    <section className="main-container">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl md:text-3xl font-bold"> Subscription plans</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Create and manage subscription plans for your customers.
-        </p>
+    <section className="main-container space-y-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold">
+            Subscription Plans
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Create and manage pricing plans for your members.
+          </p>
+        </div>
       </div>
 
-      <Separator className="mb-2" />
+      <div className="p-0.5 bg-muted rounded-3xl">
+        <div className="relative overflow-hidden rounded-2xl border bg-white p-6 py-8">
+          <div className="flex flex-col gap-6">
+            <div className="flex justify-between">
+              <div className="flex items-center gap-3">
+                <div className="rounded-full bg-primary/10 p-3">
+                  <Building2 className="text-primary" />
+                </div>
 
-      <div className="mb-6 rounded-3xl border p-6 bg-linear-to-tr to-[#201d1d] from-[#47484a] text-white py-4 space-y-6">
-        <div className="flex justify-between pb-6">
-          <div className="flex items-center gap-2">
-            <Button
-              size="icon-lg"
-              className="rounded-full"
-            >
-              <Building2 />
-            </Button>
+                <div>
+                  <h2 className="text-lg font-semibold">
+                    Billing Plans
+                  </h2>
+                  <p className="text-xs text-muted-foreground">
+                    Organize your subscriptions and pricing structure.
+                  </p>
+                </div>
+              </div>
 
-            <div>
-              <h2 className="text-lg font-semibold text-gray-100">
-                Create Billing Plans
-              </h2>
-              <p className="text-xs text-gray-200">
-                Set up pricing plans and start onboarding users.
+              <Badge>{totalPlans} {totalPlans === 1 ? "Plan" : "Plans"}</Badge>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-muted-foreground">
+                Plans define how members subscribe and pay for services.
               </p>
+
+              <CreatePlanDialog />
             </div>
           </div>
-
-          <CreatePlanDialog />
-        </div>
-
-        <div className="my-4 h-px w-full bg-muted/50" />
-
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted">
-            Plans help you organize subscriptions and billing.
-          </p>
-
-          <span className="bg-yellow-500 text-sm px-2.5 rounded-full" >
-            {totalPlans} {totalPlans === 1 ? "Plan" : "Plans"} created
-          </span>
         </div>
       </div>
 
-      <BillingDataTable
-        columns={columns}
-        data={data}
-      />
-      
+      <div className="space-y-2">
+        <BillingDataTable
+          columns={columns}
+          data={data}
+        />
+      </div>
+
     </section>
   )
 }

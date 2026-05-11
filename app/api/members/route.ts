@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
     try {
-        const client = await clientPromise
-        const db = client.db("rogue-gym-rongai")
+        const client = await clientPromise;
+        const db = await client.db("rogue-gym-rongai")
 
         const { searchParams } = new URL(request.url)
         const { page, limit } = getPagination(request)
@@ -15,7 +15,6 @@ export async function GET(request: NextRequest) {
         const plan = searchParams.get("plan") || "all"
 
         const matchStage: any = {}
-
         if (search) {
             matchStage.$or = [
                 { firstName: { $regex: search, $options: "i" } },
@@ -26,40 +25,22 @@ export async function GET(request: NextRequest) {
         }
 
         if (status !== "all") {
-            matchStage.status = status
+            matchStage.memberStatus = status
         }
 
+        if (plan !== "all") {
+            matchStage["plan.planKey"] = plan
+        }
 
         const pipeline: any[] = [
             { $match: matchStage },
-
-            {
-                $lookup: {
-                    from: "billing-plans",
-                    localField: "planId",
-                    foreignField: "_id",
-                    as: "planData"
-                }
-            },
-
-            {
-                $addFields: {
-                    plan: { $arrayElemAt: ["$planData.title", 0] }
-                }
-            },
         ]
 
-        if (plan !== "all") {
-            pipeline.push({
-                $match: { plan: plan }
-            })
-        }
-
-        const totalMembersAgg = await db.collection("members")
+        const totalAgg = await db.collection("members")
             .aggregate([...pipeline, { $count: "total" }])
             .toArray()
 
-        const totalMembers = totalMembersAgg[0]?.total || 0
+        const totalMembers = totalAgg[0]?.total || 0;
 
         pipeline.push(
             { $sort: { createdAt: -1 } },
@@ -72,29 +53,29 @@ export async function GET(request: NextRequest) {
             .aggregate(pipeline)
             .toArray()
 
-        const formattedMembers = members.map((member) => ({
+        const membersResponse = members.map((member) => ({
             memberId: member._id.toString(),
             fullName: `${member.firstName ?? ""} ${member.lastName ?? ""}`.trim(),
             email: member.email,
             phoneNumber: member.phoneNumber,
-            totalAmount: member.totalAmount ?? 0,
-            status: member.status,
-            plan: member.plan ?? "Unknown",
-            createdAt: member.createdAt?.toISOString?.() ?? new Date().toISOString(),
+            plan: member.plan.title,
+            status: member.memberStatus,
+            amountPaid: member.plan.price,
+            createdAt: member.createdAt?.toISOString?.() ?? null,
         }))
 
         return NextResponse.json({
             page,
             limit,
             totalMembers,
-            members: formattedMembers,
+            members: membersResponse,
         })
 
-    } catch (error) {
-        console.error("Error fetching members:", error)
+    } catch (err) {
+        console.error("Error fetching members", err)
 
         return NextResponse.json(
-            { error: "Failed to fetch members" },
+            { error: "Failed to fetch Members" },
             { status: 500 }
         )
     }

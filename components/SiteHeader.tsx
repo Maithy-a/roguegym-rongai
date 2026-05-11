@@ -1,10 +1,7 @@
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { AppBreadcrumbs } from "./AppBreadcrumbs"
-import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar"
-import { Button } from "./ui/button"
 import { NavUser } from "./NavUser"
-
 
 export default function SiteHeader() {
     return (
@@ -20,9 +17,7 @@ export default function SiteHeader() {
                 </div>
             </div>
 
-            <div className="flex items-center gap-2">
-                <NavUser />
-            </div>
+            <NavUser />
         </header>
     )
 }

@@ -5,21 +5,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 import { formatToLongDate } from "@/lib/formatters"
 import { Badge } from "@/components/ui/badge"
-
-export type Employees = {
-    employeeId: string
-    fullName: string
-    phoneNumber: string
-    email: string
-    gender: string
-    role: "trainer" | "receptionist" | "manager" | "admin"
-    createdAt: Date
-}
+import { Employees } from "@/types/employee"
 
 export const columns: ColumnDef<Employees>[] = [
     {
         accessorKey: "fullName",
-        header: "Full Name",
+        header: "Employee name",
         cell: ({ row }) => {
             const name = row.original.fullName ?? "Unknown Member"
 
@@ -37,9 +28,10 @@ export const columns: ColumnDef<Employees>[] = [
                     <Avatar className="h-8 w-8">
                         <AvatarFallback
                             className={cn(
+                                "font-medium",
                                 gender === "male"
-                                    ? "bg-blue-100 text-blue-400"
-                                    : "bg-pink-100 text-pink-400"
+                                    ? "bg-blue-100 text-blue-400 border border-blue-500/50"
+                                    : "bg-pink-100 text-pink-400 border border-pink-500/50"
                             )}
                         >
                             {initials || "N/A"}
@@ -47,9 +39,9 @@ export const columns: ColumnDef<Employees>[] = [
                     </Avatar>
 
                     <div className="flex flex-col">
-                        <span className="font-medium">{name}</span>
+                        <span className="font-medium capitalize">{name}</span>
                         <span className="text-xs text-gray-500">
-                            {row.original.employeeId}
+                            {row.original.employeeId || "N/A"}
                         </span>
                     </div>
                 </div>
@@ -60,9 +52,9 @@ export const columns: ColumnDef<Employees>[] = [
         accessorKey: "email",
         header: "Contact info",
         cell: ({ row }) => (
-            <div className="flex flex-col">
+            <div className="flex flex-col normal-case">
                 <span>{row.original.email}</span>
-                <span className="text-sm text-gray-500">
+                <span className="text-xs text-gray-500">
                     {row.original.phoneNumber}
                 </span>
             </div>
@@ -76,8 +68,8 @@ export const columns: ColumnDef<Employees>[] = [
             return (
                 <Badge className={cn("capitalize",
                     gender === "male"
-                        ? "text-blue-400 bg-blue-100"
-                        : "text-pink-400 bg-pink-100"
+                        ? "text-blue-500 bg-blue-100"
+                        : "text-pink-500 bg-pink-100"
                 )}>
                     {gender}
                 </Badge>
@@ -106,12 +98,11 @@ export const columns: ColumnDef<Employees>[] = [
     },
     {
         accessorKey: "createdAt",
-        header: "Date Joined",
+        header: "Date joined",
         cell: ({ row }) => {
-            const date = new Date(row.original.createdAt)
             return (
                 <span>
-                    {formatToLongDate(date)}
+                    {formatToLongDate(row.original.createdAt)}
                 </span>
             )
         }

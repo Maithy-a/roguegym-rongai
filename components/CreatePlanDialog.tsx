@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
 import {
@@ -26,7 +25,8 @@ import { PlusIcon, Loader } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 import { createPlanSchema, CreatePlan } from "@/schemas/plan.schema"
-import { createPlan } from "@/app/actions/createPlan"
+import { createPlan } from "@/app/actions/plans/createPlan"
+import { toast } from "react-toastify"
 
 export function CreatePlanDialog() {
     const [open, setOpen] = useState(false)
@@ -77,9 +77,9 @@ export function CreatePlanDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="flex items-center gap-2 rounded-full bg-red-600 px-4 text-white hover:bg-red-700">
+                <Button className="flex items-center gap-2 rounded-full bg-rose-600 px-4 text-white hover:bg-rose-700">
                     <PlusIcon className="h-4 w-4" />
-                    Add Billing Plan
+                    Create Plan
                 </Button>
             </DialogTrigger>
 

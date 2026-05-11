@@ -4,16 +4,8 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { formatCurrency } from "@/lib/formatters"
-
-export type BillingPlan = {
-    id: string
-    planKey: string
-    planTitle: string
-    price: number
-    duration: number
-    status: "active" | "inactive"
-}
-
+import { BillingPlan, PlanStatus } from "@/types/billing-plan"
+import { statusBadgeStyles } from "@/constants"
 
 export const columns: ColumnDef<BillingPlan>[] = [
     {
@@ -71,9 +63,7 @@ export const columns: ColumnDef<BillingPlan>[] = [
 
             return (
                 <Badge className={cn("capitalize",
-                    status === "active"
-                        ? "bg-green-100 text-green-600"
-                        : "bg-rose-100 text-rose-600"
+                    statusBadgeStyles[status as PlanStatus]
                 )}>
                     {status}
                 </Badge>

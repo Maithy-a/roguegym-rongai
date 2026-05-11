@@ -39,7 +39,7 @@ import { CreatePlanDialog } from "@/components/CreatePlanDialog"
 import Image from "next/image"
 
 import { useRouter } from "next/navigation"
-import { BillingPlan } from "./columns"
+import { BillingPlan } from "@/types/billing-plan"
 
 interface BillingDataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]

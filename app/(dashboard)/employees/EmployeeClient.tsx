@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { IconPlus, IconCloudUp } from "@tabler/icons-react"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
-import { Separator } from "@/components/ui/separator"
 import AddEmployee from "@/components/AddEmployee"
 import { useRouter } from "next/navigation"
 
@@ -38,8 +37,6 @@ export default function EmployeesClient({ data }: any) {
                     </Button>
                 </div>
             </div>
-
-            <Separator className="mb-6" />
 
             <DataTable
                 columns={columns}

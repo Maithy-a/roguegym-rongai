@@ -28,7 +28,7 @@ export default async function MembersPage({
     plan: plan ?? "all",
   })
 
-  const res = await fetch(
+  const res = await fetch( 
     `${process.env.NEXT_BASE_URL}/api/members?${query.toString()}`,
     { cache: "no-store" }
   )
