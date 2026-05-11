@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import {
+  ClerkProvider,
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,7 +29,18 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
+        <ClerkProvider>
+          <header className="flex items-center justify-end gap-3 p-4">
+            <Show when="signed-out">
+              <SignInButton />
+              <SignUpButton />
+            </Show>
+            <Show when="signed-in">
+              <UserButton />
+            </Show>
+          </header>
+          {children}
+        </ClerkProvider>
       </body>
     </html>
   );

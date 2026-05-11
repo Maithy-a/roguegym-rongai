@@ -1,16 +1,18 @@
-'use client'
+import { auth } from "@clerk/nextjs/server";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation'
-
-export default function Home() {
-  const router = useRouter()
+export default async function Home() {
+  const { userId } = await auth();
 
   return (
     <main>
-      <h1 className='text-3xl font-medium'>Default page running</h1>
+      <h1 className="text-3xl font-medium">Default page running</h1>
+      <p>{userId ? "Signed in" : "Signed out"}</p>
       / running
-      <Button onClick={() => router.push('/members')}>Dashboard</Button>
+      <Button asChild>
+        <Link href="/members">Dashboard</Link>
+      </Button>
     </main>
   );
 }
