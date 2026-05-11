@@ -9,7 +9,6 @@ export default async function Home() {
     <main>
       <h1 className="text-3xl font-medium">Default page running</h1>
       <p>{userId ? "Signed in" : "Signed out"}</p>
-      / running
       <Button asChild>
         <Link href="/members">Dashboard</Link>
       </Button>
