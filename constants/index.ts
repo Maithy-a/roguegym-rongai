@@ -1,4 +1,4 @@
-import { BillingPlan, PlanStatus } from "@/types/billing-plan"
+import { PlanStatus } from "@/types/billing-plan"
 import { MemberStatus } from "@/types/member"
 
 import {
@@ -13,7 +13,7 @@ export const sidebarLinks = {
     navMain: [
         {
             title: "Overview",
-            url: "/",
+            url: "/overview",
             icon: IconSmartHome,
         },
         {
@@ -98,3 +98,12 @@ export const statusBadgeStyles: Record<PlanStatus, string> = {
     active: "bg-green-100 text-green-800",
     inactive: "bg-gray-100 text-gray-800",
 }
+
+export const STAFF_ROLES = {
+    ADMIN: "admin",
+    MANAGER: "manager",
+    TRAINER: "trainer",
+    RECEPTIONIST: "receptionist",
+} as const;
+
+export type StaffRole = (typeof STAFF_ROLES)[keyof typeof STAFF_ROLES];

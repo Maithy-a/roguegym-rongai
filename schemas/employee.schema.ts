@@ -1,3 +1,4 @@
+import { STAFF_ROLES } from "@/constants"
 import { z } from "zod"
 
 export const employeeSchema = z.object({
@@ -22,7 +23,7 @@ export const employeeSchema = z.object({
         ),
     role: z
         .enum(
-            ["trainer", "manager", "receptionist", "admin"],
+            [STAFF_ROLES.ADMIN, STAFF_ROLES.MANAGER, STAFF_ROLES.RECEPTIONIST, STAFF_ROLES.TRAINER],
             "Select a role for new employee"
         ),
     branch: z
@@ -34,7 +35,7 @@ export const employeeSchema = z.object({
         .array(z.string())
         .optional(),
 }).superRefine((value, ctx) => {
-    if (value.role === "trainer" && (!value.specialities || value.specialities.length === 0)) {
+    if (value.role === STAFF_ROLES.TRAINER && (!value.specialities || value.specialities.length === 0)) {
         ctx.addIssue({
             code: "custom",
             path: ["specialities"],

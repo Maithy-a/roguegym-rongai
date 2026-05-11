@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { IconPlus, IconCloudUpload, IconUserEdit } from "@tabler/icons-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Image from "next/image";
+import { STAFF_ROLES } from "@/constants";
 
 interface EmployeeDetailsPageProps {
     params: Promise<{ id: string }>
@@ -106,7 +107,7 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                                 </p>
                             </div>
 
-                            {role === "trainer" && (
+                            {role === STAFF_ROLES.TRAINER && (
                                 <div>
                                     <p className="text-gray-500">Assigned to</p>
                                     <p className="font-semibold text-gray-900 ">
@@ -160,14 +161,14 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                                         <Button
                                             size="icon"
                                             className="h-8 w-8 rounded-full"
-                                            disabled={role !== "trainer"}
+                                            disabled={role !== STAFF_ROLES.TRAINER}
                                         >
                                             <IconPlus size={16} />
                                         </Button>
                                     </TooltipTrigger>
 
                                     <TooltipContent>
-                                        {role !== "trainer" ? "Only trainers can assign members" : "Assign member"}
+                                        {role !== STAFF_ROLES.TRAINER ? "Only trainers can assign members" : "Assign member"}
                                     </TooltipContent>
                                 </Tooltip>
 
@@ -178,7 +179,7 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                                                 size="icon"
                                                 variant="outline"
                                                 className="h-8 w-8 rounded-full"
-                                                disabled={role !== "trainer"}
+                                                disabled={role !== STAFF_ROLES.TRAINER}
                                             >
                                                 <IconCloudUpload stroke={2} />
                                             </Button>
@@ -199,7 +200,7 @@ export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPag
                 </div>
 
                 <div className="space-y-3">
-                    {role === "trainer" && specialities?.length > 0 && (
+                    {role === STAFF_ROLES.TRAINER && specialities?.length > 0 && (
                         <div className="rounded-lg bg-muted p-0.5">
                             <h3 className="rounded-lg bg-background border px-2 py-1 text-sm font-medium text-gray-900">
                                 Specialities

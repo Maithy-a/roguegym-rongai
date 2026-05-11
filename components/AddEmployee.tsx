@@ -31,12 +31,9 @@ import {
 } from "@/components/ui/select";
 
 import { cn } from "@/lib/utils";
-import {
-    IconChevronLeft,
-    IconChevronRight,
-    IconCircleCheck
-} from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { toast } from "react-toastify";
+import { STAFF_ROLES } from "@/constants";
 
 const steps = [
     {
@@ -107,7 +104,7 @@ export default function AddEmployee({ open, onOpenChange }: AddEmployeeProps) {
     const stepFields: CreateEmployeeField[][] = [
         ["firstName", "lastName", "email", "phoneNumber"],
         ["gender", "role", "branch"],
-        role === "trainer" ? ["specialities"] : [],
+        role === STAFF_ROLES.TRAINER ? ["specialities"] : [],
     ];
 
     const currentFields = stepFields[step] || [];
@@ -165,9 +162,10 @@ export default function AddEmployee({ open, onOpenChange }: AddEmployeeProps) {
             name: "role" as const,
             label: "Role",
             options: [
-                { value: "trainer", label: "Trainer" },
-                { value: "manager", label: "Manager" },
-                { value: "receptionist", label: "Receptionist" },
+                { value: STAFF_ROLES.TRAINER, label: "Trainer" },
+                { value: STAFF_ROLES.MANAGER, label: "Manager" },
+                { value: STAFF_ROLES.RECEPTIONIST, label: "Receptionist" },
+                { value: STAFF_ROLES.ADMIN, label: "Admin" }
             ] as const,
         },
         {
@@ -322,7 +320,7 @@ export default function AddEmployee({ open, onOpenChange }: AddEmployeeProps) {
                                 ))}
 
                             {step === 2 &&
-                                role === "trainer" && (
+                                role === STAFF_ROLES.TRAINER && (
                                     <div>
                                         <FieldLabel>Specialities</FieldLabel>
                                         <div className="flex flex-wrap gap-2 mt-2">
@@ -356,7 +354,7 @@ export default function AddEmployee({ open, onOpenChange }: AddEmployeeProps) {
                                     <p><b>Role:</b> {form.getValues("role")}</p>
                                     <p><b>Branch:</b> {form.getValues("branch")}</p>
 
-                                    {role === "trainer" && (
+                                    {role === STAFF_ROLES.TRAINER && (
                                         <div>
                                             <p className="font-medium">Specialities</p>
                                             <div className="flex flex-wrap gap-2 mt-1">

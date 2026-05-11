@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { formatToLongDate } from "@/lib/formatters"
 import { Badge } from "@/components/ui/badge"
 import { Employees } from "@/types/employee"
+import { STAFF_ROLES } from "@/constants"
 
 export const columns: ColumnDef<Employees>[] = [
     {
@@ -83,11 +84,11 @@ export const columns: ColumnDef<Employees>[] = [
             const role = row.original.role
             return (
                 <Badge className={cn("capitalize",
-                    role === "trainer"
+                    role === STAFF_ROLES.TRAINER
                         ? "bg-green-100 text-green-600"
-                        : role === "receptionist"
+                        : role === STAFF_ROLES.RECEPTIONIST
                             ? "bg-blue-100 text-blue-600"
-                            : role === "manager"
+                            : role === STAFF_ROLES.MANAGER
                                 ? "bg-yellow-100 text-yellow-600"
                                 : "bg-gray-100 text-gray-600"
                 )}>

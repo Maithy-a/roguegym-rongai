@@ -2,8 +2,12 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { AppBreadcrumbs } from "./AppBreadcrumbs"
 import { NavUser } from "./NavUser"
+import { getCurrentEmployee } from "@/lib/auth";
 
-export default function SiteHeader() {
+export default async function SiteHeader() {
+    const user = await getCurrentEmployee();
+    if (!user) return null
+
     return (
         <header className="sticky top-0 z-50 flex h-15 shrink-0 items-center justify-between gap-2 bg-background px-4 md:px-6 border border-b border-dashed">
             <div className="flex items-center gap-2">
@@ -16,8 +20,13 @@ export default function SiteHeader() {
                     <AppBreadcrumbs />
                 </div>
             </div>
-
-            <NavUser />
+            
+            <div className="flex gap-2 items-center">
+                <NavUser />
+                <p className="text-xs text-primary capitalize">
+                    {user.role}
+                </p>
+            </div>
         </header>
     )
 }

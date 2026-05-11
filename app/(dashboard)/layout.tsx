@@ -1,3 +1,7 @@
+
+import { redirect } from "next/navigation";
+import { getCurrentEmployee } from "@/lib/auth";
+
 import { AppSidebar } from "@/components/AppSidebar"
 import SiteHeader from "@/components/SiteHeader"
 import { SidebarInset, SidebarProvider, } from "@/components/ui/sidebar"
@@ -5,7 +9,14 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { ToastContainer } from "react-toastify"
 import Script from "next/script"
 
-export default function DashboardLayout({ children, }: { children: React.ReactNode }) {
+export default async function DashboardLayout({ children, }: { children: React.ReactNode }) {
+
+    const employee = await getCurrentEmployee();
+
+    if (!employee) {
+        redirect("/sign-in");
+    }
+
     return (
         <TooltipProvider>
             <SidebarProvider>

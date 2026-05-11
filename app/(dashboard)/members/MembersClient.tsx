@@ -12,7 +12,7 @@ export default function MembersClient({ data }: any) {
     const router = useRouter()
 
     return (
-        <main className="main-container">
+        <section className="main-container">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
                 <div>
                     <h1 className="text-2xl md:text-3xl font-bold">Members</h1>
@@ -46,6 +46,6 @@ export default function MembersClient({ data }: any) {
                 total={data.totalMembers}
                 onRowClick={(member) => { router.push(`/members/${member.memberId}`) }}
             />
-        </main>
+        </section>
     )
 }

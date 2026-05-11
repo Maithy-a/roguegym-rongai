@@ -1,16 +1,12 @@
-'use client'
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation'
+export default async function HomePage() {
+  const { userId } = await auth();
 
-export default function Home() {
-  const router = useRouter()
+  if (userId) {
+    redirect("/overview");
+  }
 
-  return (
-    <main>
-      <h1 className='text-3xl font-medium'>Default page running</h1>
-      / running
-      <Button onClick={() => router.push('/members')}>Dashboard</Button>
-    </main>
-  );
+  redirect("/sign-in");
 }
