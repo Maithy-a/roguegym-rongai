@@ -43,7 +43,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="lg:pt-6">
+      <SidebarContent className="lg:pt-8">
         <NavMain items={sidebarLinks.navMain} />
       </SidebarContent>
 

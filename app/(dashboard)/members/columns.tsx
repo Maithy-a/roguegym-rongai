@@ -1,10 +1,10 @@
 "use client"
 
+import { cn } from "@/lib/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { formatCurrency, formatToLongDate } from "@/lib/formatters"
-import { cn } from "@/lib/utils"
 import { MembersResponse } from "@/types/member"
 import { avatarStyles, badgeStyles } from "@/constants"
 

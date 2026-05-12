@@ -107,3 +107,13 @@ export const STAFF_ROLES = {
 } as const;
 
 export type StaffRole = (typeof STAFF_ROLES)[keyof typeof STAFF_ROLES];
+
+// export const currentUser =
+// {
+//     userId: "bmaithya",
+//     fullName:"Bonface Maithya",
+//     firstName: "Bonface",
+//     lastName: "Maithya",
+//     email: "bmaithya000@gmail.com",
+//     imageUrl: "/icons/logo.jpg"
+// }

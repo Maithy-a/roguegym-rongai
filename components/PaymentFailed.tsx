@@ -1,6 +1,6 @@
 "use client"
 
-import { AlertTriangle, RefreshCcw } from "lucide-react"
+import { AlertTriangle } from "lucide-react"
 import { Button } from "./ui/button"
 
 interface PaymentFailedProps {
@@ -15,23 +15,26 @@ export default function PaymentFailed({
   onTryAgain,
 }: PaymentFailedProps) {
   return (
-    <div className="flex min-h-[70vh] items-center justify-center px-4">
-      <div className="w-full max-w-lg rounded-3xl border bg-white p-8 shadow-sm">
+    <div className="bg-accent p-0.5 rounded-lg">
+      <div className="w-full max-w-md rounded-lg bg-background p-6 shadow-xs">
         <div className="flex flex-col items-center text-center">
-          <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
-            <AlertTriangle className="h-10 w-10 text-red-600" />
+
+          <div className="p-0.5 bg-accent h-21 w-21 rounded-full">
+            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-100 border-red-500">
+              <AlertTriangle className="h-8 w-8 text-red-500" />
+            </div>
           </div>
 
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tighter">
             {title}
           </h1>
 
-          <p className="mt-3 text-sm leading-6 text-muted-foreground max-w-sm">
+          <p className="text-sm leading-6 text-muted-foreground">
             {message}
           </p>
 
-          <div className="mt-8 w-full rounded-2xl border bg-muted/30 p-4 text-left">
-            <p className="text-sm font-medium text-gray-900">
+          <div className="mt-8 w-full bg-muted/30 rounded-lg border p-4 text-left">
+            <p className="text-sm font-semibold">
               Payment Incomplete
             </p>
 
@@ -43,11 +46,9 @@ export default function PaymentFailed({
 
           <Button
             onClick={onTryAgain}
-            variant="destructive"
-            className="mt-8 w-full h-11 rounded-xl"
+            className="mt-8 w-full bg-rose-500 text-white hover:bg-rose-600"
           >
             Try Again
-            <RefreshCcw className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>

@@ -1,9 +1,10 @@
 import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
+
 import clientPromise from "@/lib/mongodb";
 
 export async function getCurrentEmployee() {
     const { userId } = await auth();
-
+    
     if (!userId) {
         return null;
     }

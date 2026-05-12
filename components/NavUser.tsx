@@ -23,7 +23,6 @@ export async function NavUser() {
 
     const user = await getCurrentEmployee();
     if (!user) return null;
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

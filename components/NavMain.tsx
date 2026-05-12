@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sidebar"
 
 import type { Icon } from "@tabler/icons-react"
+
 type NavItem = {
   title: string
   url: string
@@ -33,11 +34,11 @@ export function NavMain({ items }: { items: NavItem[] }) {
               <SidebarMenuButton
                 asChild
                 tooltip={item.title}
-                className={cn( 
-                  "mb-2 rounded-full",
+                className={cn(
+                  "mb-2 rounded-lg px-3 py-2 transition-colors duration-200",
                   isActive
-                    ? "bg-red-600 text-white hover:bg-red-500 hover:text-white"
-                    : "text-gray-600 "
+                    ? "bg-red-500 text-white hover:bg-red-600 hover:text-white"
+                    : "text-gray-600 hover:bg-gray-200"
                 )}
               >
 
