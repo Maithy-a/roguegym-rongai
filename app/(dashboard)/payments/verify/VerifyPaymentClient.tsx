@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 import PaymentSuccess from "@/components/PaymentSuccess";
 import PaymentFailed from "@/components/PaymentFailed";
+import { LoaderIcon } from "lucide-react";
 
 interface PaymentData {
     reference: string
@@ -87,17 +88,19 @@ export default function VerifyPaymentClient() {
 
     if (loading) {
         return (
-            <div className="flex min-h-[70vh] items-center justify-center px-4">
-                <div className="w-full max-w-md rounded-3xl border bg-white p-8 shadow-sm">
+            <div className="main-container flex items-center justify-center px-4">
+                <div className="w-full max-w-md rounded-xl border bg-background p-8">
 
                     <div className="flex flex-col items-center text-center">
-                        <div className="h-14 w-14 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                        <LoaderIcon className="h-8 w-8 animate-spin text-primary" />
                         <h2 className="mt-6 text-xl font-semibold">
                             Verifying Payment
                         </h2>
+
                         <p className="mt-2 text-sm text-muted-foreground">
                             Please wait while we confirm the transaction.
                         </p>
+
                     </div>
                 </div>
             </div>
@@ -106,10 +109,9 @@ export default function VerifyPaymentClient() {
 
     return (
         <div className="main-container flex items-center justify-center">
-
             {success && paymentData ? (
                 <PaymentSuccess
-                    title="Payment Verified Successfully"
+                    title="Successfully Payment"
                     message={message}
                     reference={paymentData.reference}
                     paymentChannel={paymentData.paymentChannel}
@@ -124,7 +126,6 @@ export default function VerifyPaymentClient() {
                     onTryAgain={() => router.push("/members/create-member")}
                 />
             )}
-
         </div>
     );
 }

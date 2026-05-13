@@ -23,24 +23,34 @@ export async function GET(request: NextRequest) {
             }
         )
 
-        const paystackData = await paystackResponse.json()
-        if (!paystackData.status) {
+        const paystackResult = await paystackResponse.json()
+
+        if (!paystackResult.status || paystackResult.data.status !== "success") {
             return NextResponse.json(
                 { error: "Payment verification failed" },
                 { status: 400 }
             )
         }
 
-        const paymentData = paystackData.data
-        if (paymentData.status !== "success") {
-            return NextResponse.json(
-                { error: "Payment not successful" },
-                { status: 400 }
-            )
-        }
+        const paymentData = paystackResult.data;
+        const client = await clientPromise;
+        const db = client.db("rogue-gym-rongai");
 
-        const client = await clientPromise
-        const db = client.db("rogue-gym-rongai")
+        const existingPayment = await db
+            .collection("payments")
+            .findOne({ reference })
+
+        if (existingPayment) {
+            return NextResponse.json({
+                success: true,
+                message: "Payment already verified",
+
+                reference: existingPayment.reference,
+                paymentChannel: existingPayment.paymentChannel,
+                paidAt: existingPayment.paidAt,
+                amount: existingPayment.amount,
+            });
+        }
 
         const member = await db
             .collection("members")
@@ -50,23 +60,12 @@ export async function GET(request: NextRequest) {
 
         if (!member) {
             return NextResponse.json(
-                { error: "Member not found!" },
+                { error: "Member not found" },
                 { status: 404 }
             )
         }
 
-        const existingPayment = await db
-            .collection("payments")
-            .findOne({
-                reference: reference
-            })
-
-        if (existingPayment) {
-            return NextResponse.json(
-                { success: true, message: "Payment already verified" },
-                { status: 200 }
-            )
-        }
+        const amount = paymentData.amount / 100
 
         const startDate = new Date()
         const endDate = new Date()
@@ -81,17 +80,16 @@ export async function GET(request: NextRequest) {
         await db.collection("payments").insertOne({
             memberId: member._id,
             reference,
-            amount: paymentData.amount / 100, // Convert back to main currency unit
+            amount,
+
             currency: paymentData.currency,
             paymentChannel: paymentData.channel,
             paidAt: paymentData.paid_at,
             status: paymentData.status,
             gatewayResponse: paymentData.gateway_response,
             plan: member.plan,
-
             createdAt: new Date(),
         })
-
 
         await db.collection("members").updateOne(
             { _id: member._id },
@@ -103,11 +101,16 @@ export async function GET(request: NextRequest) {
                     membershipEndDate: endDate,
                     updatedAt: new Date(),
                 },
+
+                $unset: {
+                    currentPaymentReference: "",
+                },
             }
         )
 
         return NextResponse.json({
             success: true,
+            message: "Payment verified successfully",
 
             member: {
                 memberId: member.memberId,
@@ -117,9 +120,14 @@ export async function GET(request: NextRequest) {
 
             payment: {
                 reference,
-                amount: paymentData.amount / 100,
+                amount,
                 status: paymentData.status,
-            }
+            },
+
+            reference,
+            paymentChannel: paymentData.channel,
+            paidAt: paymentData.paid_at,
+            amount,
         })
 
     } catch (error) {

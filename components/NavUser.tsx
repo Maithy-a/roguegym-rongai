@@ -69,8 +69,8 @@ export async function NavUser() {
                 <DropdownMenuGroup className="mt-1">
                     <SignOutButton redirectUrl="/sign-in">
                         <DropdownMenuItem variant="destructive">
-                            <IconChevronLeft stroke={2} />
-                            Log out
+                                <IconChevronLeft stroke={2} size={18} />
+                                Log out
                         </DropdownMenuItem>
                     </SignOutButton>
                 </DropdownMenuGroup>

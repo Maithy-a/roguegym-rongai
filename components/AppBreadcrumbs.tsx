@@ -30,7 +30,7 @@ export function AppBreadcrumbs() {
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                        <Link href="/">Dashboard</Link>
+                        <Link href="/overview">Dashboard</Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
 

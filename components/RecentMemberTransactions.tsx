@@ -15,8 +15,8 @@ export default function RecentMemberTransactions({
 
     return (
         <>
-            <div className="bg-accent rounded-3xl p-1.5">
-                <div className="flex items-center justify-between px-2 py-1.5">
+            <div className="bg-accent rounded-lg p-0.5">
+                <div className="flex items-center justify-between px-2 py-1">
                     <h3 className="text-lg font-semibold">
                         Transaction History
                     </h3>
@@ -32,7 +32,7 @@ export default function RecentMemberTransactions({
                 </div>
 
                 {transactions.length ? (
-                    <div className="bg-white rounded-2xl border overflow-hidden">
+                    <div className="bg-white rounded-lg border overflow-hidden">
                         <Table className="w-full text-sm">
                             <TableBody>
                                 {transactions.map((transaction) => (
@@ -81,7 +81,7 @@ export default function RecentMemberTransactions({
                     </div>
                 ) : (
                     <TableRow>
-                        <TableCell className="text-center py-10 text-sm text-muted-foreground">
+                        <TableCell className="text-center flex justify-center items-center py-10 text-sm text-muted-foreground">
                             <Image
                                 src="/images/empty-table.svg"
                                 alt="No transactions"
@@ -94,8 +94,6 @@ export default function RecentMemberTransactions({
                     </TableRow>
                 )}
             </div>
-
-
         </>
     );
 }

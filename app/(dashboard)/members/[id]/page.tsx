@@ -1,10 +1,8 @@
 import { notFound } from "next/navigation";
 import TransactionsClient from "./TransactionsClient";
-import MemberProfileCard from "@/components/MemberProfileCard";
 import { MemberResponse } from "@/types/member";
+import MemberProfileCard from "@/components/MemberProfileCard";
 import MembersMeta from "@/components/MembersMeta";
-
-
 interface MemberPageProps {
     params: { id: string };
 }
@@ -25,7 +23,7 @@ export default async function MemberPage({ params }: MemberPageProps) {
 
     return (
         <section className="main-container space-y-6">
-            <div className="grid gap-0.5 rounded-3xl bg-accent p-0.5 shadow-sm md:grid-cols-2">
+            <div className="grid gap-0.5 rounded-lg bg-accent p-0.5 md:grid-cols-2">
                 <MemberProfileCard
                     firstName={data.firstName}
                     lastName={data.lastName}

@@ -31,8 +31,8 @@ export const columns: ColumnDef<Employees>[] = [
                             className={cn(
                                 "font-medium",
                                 gender === "male"
-                                    ? "bg-blue-100 text-blue-400 border border-blue-500/50"
-                                    : "bg-pink-100 text-pink-400 border border-pink-500/50"
+                                    ? "bg-blue-100 text-blue-400"
+                                    : "bg-pink-100 text-pink-400"
                             )}
                         >
                             {initials || "N/A"}
@@ -70,10 +70,12 @@ export const columns: ColumnDef<Employees>[] = [
                 <Badge className={cn("capitalize",
                     gender === "male"
                         ? "text-blue-500 bg-blue-100"
-                        : "text-pink-500 bg-pink-100"
+                        : gender === "female"
+                            ? "text-pink-500 bg-pink-100"
+                            : "text-gray-500 bg-gray-100"
                 )}>
                     {gender}
-                </Badge>
+                </Badge >
             )
         }
     },

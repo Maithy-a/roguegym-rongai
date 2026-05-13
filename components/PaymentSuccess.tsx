@@ -68,7 +68,7 @@ export default function PaymentSuccess({
                             <TableBody>
                                 {verificationData.map((item) => (
                                     <TableRow key={item.label}>
-                                        <TableCell className="font-medium text-muted-foreground w-1/2">
+                                        <TableCell className="font-medium text-muted-foreground w-1/2 text-left">
                                             {item.label}
                                         </TableCell>
 

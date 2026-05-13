@@ -40,6 +40,7 @@ import Image from "next/image"
 
 import { useRouter } from "next/navigation"
 import { BillingPlan } from "@/types/billing-plan"
+import TableContainer from "@/components/TableContainer"
 
 interface BillingDataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -118,76 +119,71 @@ export function BillingDataTable<TData, TValue>({
                 </DropdownMenu>
             </div>
 
-            <div className="p-1.5 bg-accent rounded-3xl shadow-sm border">
-                <div className="rounded-2xl p-3 mt-4 overflow-hidden bg-white">
-                    <Table className="overflow-hidden">
-                        <TableHeader>
-                            {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id}>
-                                    {headerGroup.headers.map((header) => (
-                                        <TableHead
-                                            key={header.id}
-                                            className="font-medium"
-                                        >
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                        </TableHead>
-                                    ))}
-                                </TableRow>
+            <TableContainer>
+                <TableHeader>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => (
+                                <TableHead
+                                    key={header.id}
+                                    className="font-medium"
+                                >
+                                    {header.isPlaceholder
+                                        ? null
+                                        : flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
+                                </TableHead>
                             ))}
-                        </TableHeader>
+                        </TableRow>
+                    ))}
+                </TableHeader>
 
-                        <TableBody>
-                            {table.getRowModel().rows.length ? (
-                                table.getRowModel().rows.map((row) => (
-                                    <TableRow
-                                        key={row.id}
-                                        className="cursor-pointer hover:bg-muted transition-colors duration-200"
-                                        onClick={() => {
-                                            const plan = row.original as BillingPlan
-                                            router.push(`/billing-plans/${plan.id}`)
-                                        }}
-                                    >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id} className="py-3">
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell
-                                        colSpan={columns.length}
-                                    >
-                                        <div className="flex flex-col items-center justify-center gap-2 py-10">
-                                            <Image
-                                                src='/images/empty-table.svg'
-                                                width='150'
-                                                height='150'
-                                                alt=""
-                                                className="border rounded-full"
-                                            />
-                                            <p className="text-sm text-gray-500">
-                                                No plans Available at the moment.
-                                            </p>
-                                            <CreatePlanDialog />
-                                        </div>
+                <TableBody>
+                    {table.getRowModel().rows.length ? (
+                        table.getRowModel().rows.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                className="cursor-pointer hover:bg-muted transition-colors duration-200"
+                                onClick={() => {
+                                    const plan = row.original as BillingPlan
+                                    router.push(`/billing-plans/${plan.id}`)
+                                }}
+                            >
+                                {row.getVisibleCells().map((cell) => (
+                                    <TableCell key={cell.id} className="py-3">
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
                                     </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-            </div>
+                                ))}
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell
+                                colSpan={columns.length}
+                            >
+                                <div className="flex flex-col items-center justify-center gap-2 py-10">
+                                    <Image
+                                        src='/images/empty-table.svg'
+                                        width='150'
+                                        height='150'
+                                        alt=""
+                                        className="border rounded-full"
+                                    />
+                                    <p className="text-sm text-gray-500">
+                                        No plans Available at the moment.
+                                    </p>
+                                    <CreatePlanDialog />
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    )}
+                </TableBody>
+            </TableContainer>
         </div>
-
     )
 }

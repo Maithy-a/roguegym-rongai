@@ -39,7 +39,7 @@ export default function MembersMeta({ email, phoneNumber, memberId, status }: Me
 
 
     return (
-        <div className="relative overflow-hidden bg-white rounded-2xl border p-6 flex flex-col justify-between ">
+        <div className="relative overflow-hidden bg-white rounded-lg border p-6 flex flex-col justify-between shadow-xs">
             <div
                 className={cn(
                     "absolute -top-10 -left-10 h-35 w-35 rounded-full blur-3xl opacity-20",

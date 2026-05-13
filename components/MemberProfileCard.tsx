@@ -22,7 +22,7 @@ export default function MemberProfileCard({
     const fullName = `${firstName} ${lastName}`
 
     return (
-        <div className="relative overflow-hidden bg-white rounded-2xl border p-6 flex flex-col justify-between ">
+        <div className="relative overflow-hidden bg-background rounded-lg p-6 flex flex-col justify-between shadow-xs">
             <div
                 className={cn(
                     "absolute -top-10 -right-10 h-35 w-35 rounded-full blur-3xl opacity-20",
