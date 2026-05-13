@@ -13,7 +13,10 @@ export async function GET(request: NextRequest) {
 
         const search = searchParams.get("search") || "";
         const status = searchParams.get("status") || "all";
+
         const plan = searchParams.get("plan") || "all";
+        const reference = searchParams.get("reference") || "all";
+        const paymentChannel = searchParams.get("paymentChannel") || "all";
 
         const matchStage: Record<string, any> = {};
 
@@ -21,8 +24,16 @@ export async function GET(request: NextRequest) {
             matchStage.status = status;
         }
 
+        if (reference !== "all") {
+            matchStage.reference = reference;
+        }
+
         if (plan !== "all") {
             matchStage["plan.planKey"] = plan;
+        }
+
+        if (paymentChannel !== "all") {
+            matchStage.paymentChannel = paymentChannel;
         }
 
         const basePipeline: any[] = [

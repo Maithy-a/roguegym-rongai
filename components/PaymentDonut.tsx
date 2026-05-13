@@ -43,7 +43,7 @@ export default function PaymentDonut({
     }));
 
     return (
-        <div className="rounded-lg max-w-xs bg-background p-6 border">
+        <div className="rounded-lg max-w-sm w-full bg-background p-6 border">
             <h2 className="text-lg font-semibold tracking-tight">
                 Revenue by Plan
             </h2>
