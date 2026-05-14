@@ -1,11 +1,7 @@
 import { formatCurrency } from "@/lib/formatters";
-import {
-    IconCash,
-    IconCreditCard,
-    IconCircleCheck,
-} from "@tabler/icons-react";
+import { IconCash, IconCreditCard, IconCircleCheck } from "@tabler/icons-react"
 
-import StatsKPI, { StatItem } from "../StatsKPI";
+import StatsKPI, { StatItem } from "../plans/StatsKPI"
 
 interface PaymentKPIProps {
     totalTransactions: number;
@@ -19,10 +15,9 @@ export default function PaymentKPI({
     successfulPayments,
 }: PaymentKPIProps) {
 
-    const successRate =
-        totalTransactions > 0
-            ? Math.round((successfulPayments / totalTransactions) * 100)
-            : 0;
+    const successRate = totalTransactions > 0
+        ? Math.round((successfulPayments / totalTransactions) * 100)
+        : 0
 
     const paymentKpis: StatItem[] = [
         {
@@ -45,8 +40,8 @@ export default function PaymentKPI({
             icon: IconCircleCheck,
             description: "Completed successful transactions",
         },
-    ];
+    ]
 
-    return <StatsKPI stats={paymentKpis} />;
+    return <StatsKPI stats={paymentKpis} />
 
 }

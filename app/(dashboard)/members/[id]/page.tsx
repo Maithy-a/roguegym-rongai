@@ -11,7 +11,7 @@ export default async function MemberPage({ params }: MemberPageProps) {
     const { id } = await params;
 
     const res = await fetch(
-        `${process.env.NEXT_BASE_URL}/api/members/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/members/${id}`,
         { cache: "no-store" }
     );
 

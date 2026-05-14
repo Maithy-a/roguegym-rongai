@@ -29,7 +29,7 @@ export default async function MembersPage({
   })
 
   const res = await fetch( 
-    `${process.env.NEXT_BASE_URL}/api/members?${query.toString()}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/members?${query.toString()}`,
     { cache: "no-store" }
   )
 

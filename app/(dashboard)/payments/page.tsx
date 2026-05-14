@@ -42,7 +42,7 @@ export default async function PaymentsPage({
   })
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/payments?${query.toString()}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/payments?${query.toString()}`,
     { cache: "no-store" }
   )
   const data = await res.json()

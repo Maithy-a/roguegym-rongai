@@ -15,7 +15,7 @@ interface EmployeeDetailsPageProps {
 export default async function EmployeeDetailsPage({ params }: EmployeeDetailsPageProps) {
     const { id } = await params;
 
-    const res = await fetch(`${process.env.NEXT_BASE_URL}/api/employees/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/employees/${id}`, {
         cache: "no-store",
     });
 

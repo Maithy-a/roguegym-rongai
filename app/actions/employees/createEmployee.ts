@@ -65,7 +65,7 @@ export async function createEmployee(input: EmployeeFormValues) {
 
             await createClerkUser.invitations.createInvitation({
                 emailAddress: normalizedEmail,
-                redirectUrl: `${process.env.NEXT_PUBLIC_APP_URL}/sign-up`,
+                redirectUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/sign-up`,
                 publicMetadata: {
                     phoneNumber: parsed.data.phoneNumber.trim(),
                     firstName: parsed.data.firstName.trim(),

@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
                     email,
                     amount: plan.price * 100,
                     reference,
-                    callback_url: `${process.env.NEXT_PUBLIC_APP_URL}/payments/verify`,
+                    callback_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payments/verify`,
                     metadata: { memberId, planKey },
                 }),
             }

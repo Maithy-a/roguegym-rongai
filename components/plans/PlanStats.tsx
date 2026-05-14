@@ -1,5 +1,5 @@
 import { formatCurrency } from "@/lib/formatters";
-import StatsKPI from "@/components/StatsKPI";
+import StatsKPI from "@/components/plans/StatsKPI";
 import { IconCreditCard, IconUser } from "@tabler/icons-react";
 
 interface PlanStatsProps {

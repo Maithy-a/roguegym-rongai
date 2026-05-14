@@ -11,7 +11,7 @@ interface PlanPageProps {
 export default async function PlanPage({ params }: PlanPageProps) {
     const { planKey } = await params;
 
-    const res = await fetch(`${process.env.NEXT_BASE_URL}/api/plans/${planKey}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/plans/${planKey}`, {
         cache: "no-store",
     })
     if (!res.ok) return notFound()
@@ -36,7 +36,9 @@ export default async function PlanPage({ params }: PlanPageProps) {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div className="col-span-2">
-                    <PlanTransactions transactions={plan.transactions || []} />
+                    <PlanTransactions
+                        transactions={plan.transactions || []}
+                    />
                 </div>
 
                 <div className="col-span-1">

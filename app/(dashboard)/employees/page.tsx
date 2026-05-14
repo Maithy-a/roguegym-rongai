@@ -27,7 +27,7 @@ export default async function EmployeesPage({
   })
 
   const res = await fetch(
-    `${process.env.NEXT_BASE_URL}/api/employees?${query.toString()}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/employees?${query.toString()}`,
     { cache: "no-store" }
   )
 
