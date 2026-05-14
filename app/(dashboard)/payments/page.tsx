@@ -1,7 +1,7 @@
-import PaymentKPI from "@/components/PaymentKPI";
+import PaymentKPI from "@/components/payments/PaymentKPI";
 import { columns } from "./columns";
 import { PaymentDataTable } from "./data-table";
-import PaymentDonut from "@/components/PaymentDonut";
+import PaymentDonut from "@/components/payments/PaymentDonut";
 
 export default async function PaymentsPage({
   searchParams,

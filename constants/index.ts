@@ -1,5 +1,6 @@
 import { PlanStatus } from "@/types/billing-plan"
 import { MemberStatus } from "@/types/member"
+import { PaymentStatus } from "@/types/payments"
 
 import {
     IconSmartHome,
@@ -97,6 +98,13 @@ export const badgeStyles: Record<MemberStatus, string> = {
 export const statusBadgeStyles: Record<PlanStatus, string> = {
     active: "bg-green-100 text-green-800",
     inactive: "bg-gray-100 text-gray-800",
+}
+
+
+export const paymentStatus: Record<PaymentStatus, string> = {
+    success: "bg-green-100 text-green-500",
+    pending: "bg-yellow-100 text-yellow-500",
+    failed: "bg-rose-100 text-rose-500"
 }
 
 export const STAFF_ROLES = {

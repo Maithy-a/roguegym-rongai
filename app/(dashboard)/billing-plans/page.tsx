@@ -1,7 +1,7 @@
 import { Building2 } from "lucide-react"
 import { BillingDataTable } from "./data-table"
 import { columns } from "./columns"
-import { CreatePlanDialog } from "@/components/CreatePlanDialog"
+import { CreatePlanDialog } from "@/components/plans/CreatePlanDialog"
 import { Badge } from "@/components/ui/badge"
 import BillingPlanBanner from "./billing-plan-banner"
 

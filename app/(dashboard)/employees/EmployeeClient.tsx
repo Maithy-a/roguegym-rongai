@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { IconPlus, IconCloudUp } from "@tabler/icons-react"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
-import AddEmployee from "@/components/AddEmployee"
+import AddEmployee from "@/components/employees/AddEmployee"
 import { useRouter } from "next/navigation"
 
 export default function EmployeesClient({ data }: any) {

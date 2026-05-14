@@ -1,7 +1,7 @@
 "use client";
 
-import RecentMemberTransactions from "@/components/RecentMemberTransactions";
-import ViewMemberTransaction from "@/components/ViewMemberTransaction";
+import RecentMemberTransactions from "@/components/members/RecentMemberTransactions";
+import ViewMemberTransaction from "@/components/members/ViewMemberTransaction";
 import { useState } from "react";
 
 export default function TransactionsClient({ transactions }: any) {

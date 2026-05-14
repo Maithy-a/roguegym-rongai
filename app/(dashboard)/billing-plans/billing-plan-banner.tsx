@@ -1,4 +1,4 @@
-import { CreatePlanDialog } from '@/components/CreatePlanDialog'
+import { CreatePlanDialog } from '@/components/plans/CreatePlanDialog'
 import { Badge } from '@/components/ui/badge'
 import { Building2 } from 'lucide-react'
 

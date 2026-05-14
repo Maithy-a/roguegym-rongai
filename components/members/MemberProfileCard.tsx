@@ -1,5 +1,5 @@
-import { formatCurrency, formatToLongDate } from '@/lib/formatters'
-import { Avatar, AvatarFallback } from './ui/avatar'
+import { formatCurrency, formatMonths, formatToLongDate } from '@/lib/formatters'
+import { Avatar, AvatarFallback } from '../ui/avatar'
 import { cn } from '@/lib/utils'
 import { CurrentPlan, MemberStatus } from '@/types/member'
 import { avatarStyles, statusStyles } from '@/constants'
@@ -51,7 +51,7 @@ export default function MemberProfileCard({
                 <div className="flex justify-between border-b border-dashed border-border pb-2">
                     <span className="text-gray-500">Plan Duration</span>
                     <span className="font-medium">
-                        {currentPlan?.duration ?? 0} months
+                        {currentPlan?.duration ?? 0} {formatMonths(currentPlan.duration)}
                     </span>
                 </div>
                 <div className="flex justify-between border-b border-dashed border-border pb-2">

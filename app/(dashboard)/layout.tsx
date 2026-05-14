@@ -13,8 +13,8 @@ export default async function DashboardLayout({ children, }: { children: React.R
 
     const employee = await getCurrentEmployee();
 
-    if (!employee) {
-        redirect("/sign-in");
+    if (!employee) { 
+        redirect("/unauthorized");
     }
 
     return (
@@ -22,7 +22,7 @@ export default async function DashboardLayout({ children, }: { children: React.R
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
-                    <SiteHeader />
+                    <SiteHeader employee={employee} />
                     <main className="flex flex-1 flex-col gap-4 p-4 pt-0 bg-gray-50">
                         {children}
                     </main>

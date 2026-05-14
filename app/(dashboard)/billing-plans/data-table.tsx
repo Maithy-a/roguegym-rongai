@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/input-group"
 
 import { Search, ListFilterPlus } from "lucide-react"
-import { CreatePlanDialog } from "@/components/CreatePlanDialog"
+import { CreatePlanDialog } from "@/components/plans/CreatePlanDialog"
 import Image from "next/image"
 
 import { useRouter } from "next/navigation"
@@ -148,7 +148,7 @@ export function BillingDataTable<TData, TValue>({
                                 className="cursor-pointer hover:bg-muted transition-colors duration-200"
                                 onClick={() => {
                                     const plan = row.original as BillingPlan
-                                    router.push(`/billing-plans/${plan.id}`)
+                                    router.push(`/billing-plans/${plan.planKey}`)
                                 }}
                             >
                                 {row.getVisibleCells().map((cell) => (

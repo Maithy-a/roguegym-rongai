@@ -24,3 +24,7 @@ export const formatToShortDate = (date: string): string => {
         day: "numeric",
     });
 }
+
+export const formatMonths = (months: number) => {
+    return months === 1 ? "month" : "months" 
+}

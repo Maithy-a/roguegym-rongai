@@ -31,8 +31,8 @@ import { useTableQuery } from "@/hooks/useTableQuery"
 import { useTableSearch } from "@/hooks/useTableSearch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-interface DataTableProps<TData> {
-    columns: ColumnDef<TData, any>[]
+interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[]
     data: TData[]
 
     page: number
@@ -47,7 +47,7 @@ interface DataTableProps<TData> {
     onRowClick?: (row: TData) => void
 }
 
-export function PaymentDataTable<TData>({
+export function PaymentDataTable<TData, TValue>({
     columns,
     data,
 
@@ -55,7 +55,7 @@ export function PaymentDataTable<TData>({
     limit,
     total,
     onRowClick,
-}: DataTableProps<TData>) {
+}: DataTableProps<TData, TValue>) {
 
     const searchParams = useSearchParams()
 
@@ -112,7 +112,6 @@ export function PaymentDataTable<TData>({
                         </SelectContent>
                     </Select>
                 </div>
-
             </div>
 
             <TableContainer>

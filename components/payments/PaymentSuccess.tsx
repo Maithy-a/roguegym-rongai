@@ -2,13 +2,13 @@
 
 import { CheckCircle2 } from "lucide-react"
 
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import {
     Table,
     TableBody,
     TableCell,
     TableRow,
-} from "./ui/table"
+} from "../ui/table"
 
 import {
     formatCurrency,

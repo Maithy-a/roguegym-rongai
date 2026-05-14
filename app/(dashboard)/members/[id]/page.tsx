@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import TransactionsClient from "./TransactionsClient";
 import { MemberResponse } from "@/types/member";
-import MemberProfileCard from "@/components/MemberProfileCard";
-import MembersMeta from "@/components/MembersMeta";
+import MemberProfileCard from "@/components/members/MemberProfileCard";
+import MembersMeta from "@/components/members/MembersMeta";
 interface MemberPageProps {
     params: { id: string };
 }

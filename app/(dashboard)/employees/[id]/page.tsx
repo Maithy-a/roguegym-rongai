@@ -1,4 +1,4 @@
-import AssignedMembersList from "@/components/AssignedMemberList";
+import AssignedMembersList from "@/components/employees/AssignedMemberList";
 import { Badge } from "@/components/ui/badge";
 import { formatToShortDate } from "@/lib/formatters";
 import { notFound } from "next/navigation";

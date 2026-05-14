@@ -17,12 +17,20 @@ import {
 import { Button } from "./ui/button";
 import { IconChevronLeft } from "@tabler/icons-react";
 import { SignOutButton } from "@clerk/nextjs";
-import { getCurrentEmployee } from "@/lib/auth";
 
-export async function NavUser() {
+interface NavUserProps {
+    employee:{
+        firstName: string;
+        lastName: string;
+        email: string;
+        imageUrl?: string;
+    }
+}
 
-    const user = await getCurrentEmployee();
-    if (!user) return null;
+export async function NavUser(
+    { employee }: NavUserProps
+) {
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -31,9 +39,9 @@ export async function NavUser() {
                     variant="ghost"
                 >
                     <Avatar className="size-8">
-                        <AvatarImage src={user.imageUrl} />
+                        <AvatarImage src={employee.imageUrl} />
                         <AvatarFallback>
-                            {user.firstName.charAt(0)}
+                            {employee.firstName.charAt(0)}
                         </AvatarFallback>
                         <AvatarBadge className="bg-green-600 dark:bg-green-800" />
                     </Avatar>
@@ -48,19 +56,19 @@ export async function NavUser() {
                             className="size-10 rounded-full"
                         >
                             <Avatar className="size-10">
-                                <AvatarImage src={user.imageUrl} />
+                                <AvatarImage src={employee.imageUrl} />
                                 <AvatarFallback>
-                                    {user.firstName.charAt(0)}
+                                    {employee.firstName.charAt(0)}
                                 </AvatarFallback>
                             </Avatar>
                         </Button>
 
                         <div className="flex flex-col gap-0.5">
                             <p className="font-medium text-foreground">
-                                {user.fullName}
+                                {employee.firstName} {employee.lastName}
                             </p>
                             <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground text-xs">
-                                {user.email}
+                                {employee.email}
                             </p>
                         </div>
                     </DropdownMenuLabel>

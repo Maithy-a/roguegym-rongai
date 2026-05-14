@@ -5,8 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 import { toast } from "react-toastify";
 
-import PaymentSuccess from "@/components/PaymentSuccess";
-import PaymentFailed from "@/components/PaymentFailed";
+import PaymentSuccess from "@/components/payments/PaymentSuccess";
+import PaymentFailed from "@/components/payments/PaymentFailed";
 import { LoaderIcon } from "lucide-react";
 
 interface PaymentData {

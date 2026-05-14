@@ -8,7 +8,6 @@ import {
 } from "@tanstack/react-table"
 
 import {
-    Table,
     TableBody,
     TableCell,
     TableHead,
@@ -41,8 +40,8 @@ import TableNavButtons from "@/components/TableNavButtons"
 import { useTableQuery } from "@/hooks/useTableQuery"
 import { useTableSearch } from "@/hooks/useTableSearch"
 
-interface DataTableProps<TData> {
-    columns: ColumnDef<TData, any>[]
+interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[]
     data: TData[]
 
     page: number
@@ -63,14 +62,14 @@ const memberStatuses: MemberStatus[] = [
     "expired",
 ]
 
-export function DataTable<TData>({
+export function DataTable<TData, TValue>({
     columns,
     data,
     page,
     limit,
     total,
     onRowClick,
-}: DataTableProps<TData>) {
+}: DataTableProps<TData, TValue>) {
 
     const searchParams = useSearchParams()
 

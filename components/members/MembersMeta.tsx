@@ -1,7 +1,7 @@
 "use client";
 
 import { statusStyles } from "@/constants";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import {
     IconCircleCheck,

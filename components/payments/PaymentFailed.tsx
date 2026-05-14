@@ -1,7 +1,7 @@
 "use client"
 
 import { AlertTriangle } from "lucide-react"
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 
 interface PaymentFailedProps {
   title: string

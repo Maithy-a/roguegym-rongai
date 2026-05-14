@@ -1,7 +1,7 @@
 import { formatCurrency, formatToLongDate } from "@/lib/formatters";
 import Image from "next/image";
 import { MemberTransactions } from "@/types/member";
-import { Table, TableBody, TableCell, TableRow } from "./ui/table";
+import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 
 interface TransactionHistoryProps {
     transactions: MemberTransactions[];

@@ -1,15 +1,15 @@
-import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
-
+import { auth, currentUser } from "@clerk/nextjs/server";
 import clientPromise from "@/lib/mongodb";
 
 export async function getCurrentEmployee() {
     const { userId } = await auth();
-    
+
     if (!userId) {
         return null;
     }
 
     const user = await currentUser();
+
     if (!user?.emailAddresses?.[0]?.emailAddress) {
         return null;
     }
@@ -41,14 +41,7 @@ export async function getCurrentEmployee() {
                         updatedAt: new Date(),
                     },
                 }
-            )
-
-            const clerk = await clerkClient();
-
-            await clerk.users.updateUser(userId, {
-                firstName: employee.firstName,
-                lastName: employee.lastName,
-            });
+            );
         }
     }
 
