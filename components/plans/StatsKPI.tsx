@@ -10,12 +10,11 @@ export interface StatItem {
 
 interface StatsKPIProps {
     stats: StatItem[]
-    className?: string
 }
 
-export default function StatsKPI({ stats, className }: StatsKPIProps) {
+export default function StatsKPI({ stats }: StatsKPIProps) {
     return (
-        <div className={cn("grid gap-0.5 overflow-hidden rounded-lg bg-muted p-0.5 md:grid-cols-3 dark:bg-muted/50", className)}>
+        <div className={cn("grid gap-0.5 overflow-hidden rounded-lg bg-muted p-0.5 md:grid-cols-3 dark:bg-muted/50")}>
             {stats.map((stat) => {
 
                 const Icon = stat.icon;
@@ -23,7 +22,7 @@ export default function StatsKPI({ stats, className }: StatsKPIProps) {
                 return (
                     <div
                         key={stat.label}
-                        className="flex flex-col gap-3 rounded-lg bg-background px-6 py-6 shadow-xs"
+                        className="flex flex-col gap-3 rounded-md border bg-background px-6 py-6 shadow-xs"
                     >
 
                         <div className="flex items-start justify-between">

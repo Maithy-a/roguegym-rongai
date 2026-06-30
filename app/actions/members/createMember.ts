@@ -38,7 +38,7 @@ export async function createMember(data: NewMember) {
         const memberStatus: MemberStatus = "pending"
         const paymentStatus: PaymentStatus = "pending"
 
-        const memberId = `RGR-${Date.now()}`
+        const memberId = `rgr_${crypto.randomUUID()}`
 
         const newMemberPayload = {
             memberId,

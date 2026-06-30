@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 import { STAFF_ROLES } from "@/constants";
 import clientPromise from "@/lib/mongodb";
@@ -8,81 +8,110 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
 export async function createEmployee(input: EmployeeFormValues) {
-    const parsed = employeeSchema.safeParse(input);
+    try {
+        const parsed = employeeSchema.safeParse(input);
 
-    if (!parsed.success) {
-        return {
-            success: false,
-            message:
-                parsed.error.issues[0]?.message ?? "Invalid employee data",
-        };
-    }
+        if (!parsed.success) {
+            return {
+                success: false,
+                message:
+                    parsed.error.issues[0]?.message ??
+                    "Invalid employee data",
+            };
+        }
 
-    const client = await clientPromise;
-    const db = client.db("rogue-gym-rongai");
+        const firstName = parsed.data.firstName.trim();
+        const lastName = parsed.data.lastName.trim();
+        const phoneNumber = parsed.data.phoneNumber.trim();
 
-    const normalizedEmail = parsed.data.email.trim().toLowerCase();
+        const normalizedEmail = parsed.data.email
+            .trim()
+            .toLowerCase();
 
-    const existingStaff = await db.collection("employees").findOne({
-        email: normalizedEmail,
-    });
+        const role = parsed.data.role;
+        const authEnabled = canAccessDashboard(role);
 
-    if (existingStaff) {
-        return {
-            success: false,
-            message: "An employee with this email already exists",
-        };
-    }
+        const dbClient = await clientPromise;
+        const db = dbClient.db("rogue-gym-rongai");
 
-    const now = new Date();
+        const existingEmployee = await db.collection("employees").findOne({
+            email: normalizedEmail,
+        });
 
-    const insertResult = await db.collection("employees").insertOne({
-        clerkId: null,
-        firstName: parsed.data.firstName.trim(),
-        lastName: parsed.data.lastName.trim(),
-        email: normalizedEmail,
-        phoneNumber: parsed.data.phoneNumber.trim(),
-        gender: parsed.data.gender,
-        role: parsed.data.role,
-        branch: parsed.data.branch,
+        if (existingEmployee) {
+            return {
+                success: false,
+                message: "An employee with this email already exists",
+            };
+        }
 
-        specialities:
-            parsed.data.role === STAFF_ROLES.TRAINER
-                ? parsed.data.specialities ?? []
-                : [],
+        let invitation = null;
 
-        assignedMembers: [],
-        authEnabled: canAccessDashboard(parsed.data.role),
-        employmentStatus: "active",
+        if (authEnabled) {
+            const client = await clerkClient();
 
-        createdAt: now,
-        updatedAt: now,
-    });
-
-    if (canAccessDashboard(parsed.data.role)) {
-        try {
-            const createClerkUser = await clerkClient();
-
-            await createClerkUser.invitations.createInvitation({
+            invitation = await client.invitations.createInvitation({
                 emailAddress: normalizedEmail,
                 redirectUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/sign-up`,
+
                 publicMetadata: {
-                    phoneNumber: parsed.data.phoneNumber.trim(),
-                    firstName: parsed.data.firstName.trim(),
-                    lastName: parsed.data.lastName.trim(),
-                    role: parsed.data.role,
+                    firstName,
+                    lastName,
+                    phoneNumber,
+                    role,
                 },
             });
-        } catch (error) {
-            console.error("Failed to send Clerk invitation:", error);
         }
+
+        const now = new Date();
+
+        const insertResult = await db.collection("employees").insertOne({
+            clerkId: null,
+
+            firstName,
+            lastName,
+            email: normalizedEmail,
+            phoneNumber,
+            gender: parsed.data.gender,
+            role,
+            branch: parsed.data.branch,
+            specialities:
+                role === STAFF_ROLES.TRAINER
+                    ? parsed.data.specialities ?? []
+                    : [],
+            assignedMembers: [],
+
+            authEnabled,
+            employmentStatus: "active",
+            authInvitationStatus: authEnabled
+                ? "pending"
+                : null,
+
+            clerkInvitationId: invitation?.id ?? null,
+            invitedAt: invitation ? now : null,
+
+            createdAt: now,
+            updatedAt: now,
+        });
+
+        revalidatePath("/employees");
+
+        return {
+            success: true,
+            message: authEnabled
+                ? "Employee created and invitation sent"
+                : "Employee created successfully",
+
+            employeeId: insertResult.insertedId.toString(),
+            invitationId: invitation?.id ?? null,
+        };
+
+    } catch (error) {
+        console.error("Create employee error:", error);
+
+        return {
+            success: false,
+            message: "Something went wrong while creating employee",
+        };
     }
-
-    revalidatePath("/employees");
-
-    return {
-        success: true,
-        message: "Employee created successfully",
-        employeeId: insertResult.insertedId.toString(),
-    };
 }

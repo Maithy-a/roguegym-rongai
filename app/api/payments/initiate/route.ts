@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const reference = `CUST-${Date.now()}`
+        const reference = `CUST-${crypto.randomUUID()}`
 
         const paystackResponse = await fetch(
             "https://api.paystack.co/transaction/initialize",

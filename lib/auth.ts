@@ -14,7 +14,9 @@ export async function getCurrentEmployee() {
         return null;
     }
 
-    const email = user.emailAddresses[0].emailAddress;
+    const email = user.emailAddresses[0].emailAddress
+        .trim()
+        .toLowerCase();
 
     const client = await clientPromise;
     const db = client.db("rogue-gym-rongai");
@@ -38,14 +40,18 @@ export async function getCurrentEmployee() {
                 {
                     $set: {
                         clerkId: userId,
+                        authInvitationStatus: "accepted",
                         updatedAt: new Date(),
                     },
                 }
             );
+
+            employee.clerkId = userId;
+            employee.authInvitationStatus = "accepted";
         }
     }
 
-    if (!employee) {
+    if (!employee) { 
         return null;
     }
 
@@ -58,6 +64,11 @@ export async function getCurrentEmployee() {
         email: employee.email,
         role: employee.role,
         branch: employee.branch,
+
+        authEnabled: employee.authEnabled,
+        employmentStatus: employee.employmentStatus,
+        authInvitationStatus: employee.authInvitationStatus,
+
         imageUrl: user.imageUrl,
     };
 }

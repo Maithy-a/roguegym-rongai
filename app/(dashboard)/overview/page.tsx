@@ -56,10 +56,7 @@ export default async function OverviewPage() {
 
   return (
     <section className="main-container space-y-6">
-      <StatsKPI
-        stats={stats}
-        className="cursor-pointer *:hover:shadow-sm *:hover:-translate-y-1 *:transition-all *:hover:border-primary/50"
-      />
+      <StatsKPI stats={stats} />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="lg:col-span-2">
